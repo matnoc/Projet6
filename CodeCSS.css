@@ -10,7 +10,8 @@
     box-shadow: 0ex 3px 3px rgba(70, 70, 70);
 }
 
-@font-face {
+
+
+body {
     font-family: "Inria Sans";
-    src: url(Inria_Sans/InriaSans-Regular.ttf);
 }
