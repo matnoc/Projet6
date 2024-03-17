@@ -1,27 +1,27 @@
-
-var btnActivate = false;
-const structurePlace = document.getElementById("addBook");
-const bookSave = [];
-sessionStorage.clear();
-const placeSaveBook = document.getElementById("content");
-    const placeAllSaveBook = document.createElement("div");
+const structurePlace = document.getElementById("addBook"); // Place to insert our element
+const bookSave = []; // Find our book save easly
+sessionStorage.clear(); // We expect we refresh erase old book
+const placeSaveBook = document.getElementById("content"); // Place to insert our book save
+const placeAllSaveBook = document.createElement("div");
 
 
-
+/* This function construct our page Home */
 function firstPage(){
     const buttonLoad = document.createElement("button");
     const textButtonLoad = document.createTextNode("Ajouter un livre");
     const structurePlace = document.getElementById("addBook");
     buttonLoad.classList.add("btn");
+    /*This function switch to page home at formular page*/
     buttonLoad.addEventListener("click",function(){
         btnActivate = true;
         structurePlace.innerHTML="";
-        loadPage();
+        reasearchPage();
     })
     buttonLoad.appendChild(textButtonLoad);
     structurePlace.appendChild(buttonLoad);
 }
 
+/* This function show all of our book saving */
 function maPochList(){
     var heights = 0;
     placeSaveBook.appendChild(placeAllSaveBook);
@@ -39,14 +39,14 @@ function maPochList(){
         deleteBook.classList.add("fa-2xl");
         deleteBook.classList.add("iconPosition");
         deleteBook.id = bookSave[i];
-        deleteBook.addEventListener("click",function(){
+        deleteBook.addEventListener("click",function(){ //erase the book if we click on the trash
             sessionStorage.removeItem("title"+this.id)
             sessionStorage.removeItem(this.id)
             sessionStorage.removeItem("author"+this.id)
             sessionStorage.removeItem("description"+this.id)
             sessionStorage.removeItem("image"+this.id)
             indexToRemove =bookSave.indexOf(this.id)
-            bookSave.splice(indexToRemove,1)
+            bookSave.splice(indexToRemove,1) // When we reload this function the for don't pass by this book
             placeAllSaveBook.innerHTML="";
             maPochList()
         })
@@ -59,7 +59,7 @@ function maPochList(){
         bookId = document.createElement("h5");
         bookId.innerHTML = sessionStorage.getItem(bookSave[i]);
         placeBlocSaveBook.appendChild(bookId);
-                        
+        
         bookAuthor = document.createElement("h6");
         bookAuthor.innerHTML = sessionStorage.getItem("author"+bookSave[i]);
         placeBlocSaveBook.appendChild(bookAuthor);
@@ -69,27 +69,27 @@ function maPochList(){
         placeBlocSaveBook.appendChild(bookDescription);
 
         const centerElement = document.createElement("div")
-        centerElement.classList.add("center")
+        centerElement.classList.add("center") // We put in an another div the element we would center in the original div
         bookPicture =document.createElement("img");
         bookPicture.src = sessionStorage.getItem("image"+bookSave[i]);
         centerElement.appendChild(bookPicture)
         placeBlocSaveBook.appendChild(centerElement)
 
-                    if(heights < placeBlocSaveBook.offsetHeight){
+                    if(heights < placeBlocSaveBook.offsetHeight){ // We would all div with the same height so we find the max height to adjust all other to this value
                     heights = placeBlocSaveBook.offsetHeight;
                     console.log(placeBlocSaveBook.offsetHeight);
                     }
                 }
                 var allBlock = document.getElementsByClassName("infoSaveBook");
                 for(i=0;i<allBlock.length;i++){
-                    allBlock[i].style.height = heights - 2 + "px";
+                    allBlock[i].style.height = heights - 2 + "px"; // max height -2 because when we find this value we take the border not realy inclued in the div height
                 }
 
     }
 
 
 
-
+/* This function create a formular to search book */
 function reasearchPage(){
     structurePlace.classList.add("formularStructure");
 
@@ -111,11 +111,12 @@ function reasearchPage(){
     textToImplement = document.createTextNode("Rechercher");
     researchButton.appendChild(textToImplement);
     researchButton.classList.add("btn");
+    /* this function take the formular to show us the book in adequation */
     researchButton.addEventListener("click",async function(){
         PlaceReasearchResult.innerHTML="";
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://www.googleapis.com/books/v1/volumes?q="+enterBookName.value+"+intitle&"+enterAuthorName.value+"+inauthor&maxResults=12");
-        xhr.send();
+        xhr.open("GET", "https://www.googleapis.com/books/v1/volumes?q="+enterBookName.value+"+intitle&"+enterAuthorName.value+"+inauthor&maxResults=20");
+        xhr.send(); // We ask to the googleBook API to have a book who have 'enterBookName.value' in this name and 'enterAuthorName.value' on author. This command save only the first 20 result.
         xhr.responseType = "json";
         xhr.onload = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -146,6 +147,7 @@ function reasearchPage(){
                         saveBook.classList.add("fa-star");
                         saveBook.classList.add("fa-2xl");
                         saveBook.classList.add("iconPosition");
+                        /* this function take the select book to add at MaPoch'List */
                         saveBook.addEventListener("click", function(){
                             if((sessionStorage.getItem(`id : ${data.items[i].id}`) != null)){
                                 
@@ -170,12 +172,12 @@ function reasearchPage(){
                                     sessionStorage.setItem("description"+idBook,`Information manquante`);
                                 }
                                 if(`${data.items[i].volumeInfo.imageLinks??"Inconue"}` != "Inconue"){
-                                    sessionStorage.setItem("image"+idBook,`${data.items[i].volumeInfo.imageLinks.smallThumbnail}`);  
+                                    sessionStorage.setItem("image"+idBook,`${data.items[i].volumeInfo.imageLinks.smallThumbnail}`);
                                 }
                                 else{
-                                    sessionStorage.setItem("image"+idBook,"C:/Users/-/Desktop/Cours OpenClassroom/Projet 6/Picture/unavailable.png"); 
+                                    sessionStorage.setItem("image"+idBook,"C:/Users/-/Desktop/Cours OpenClassroom/Projet 6/Picture/unavailable.png");
                                 }
-                                bookSave.push(idBook);
+                                bookSave.push(idBook); // After push in sessionStorage all information about this book we put the book at ur saveList
                                 maPochList();
                             }
                         })
@@ -219,14 +221,14 @@ function reasearchPage(){
                         }
                         centerElement.appendChild(bookPicture)
                         blocResult.appendChild(centerElement)
-                        if(heights < blocResult.offsetHeight){
+                        if(heights < blocResult.offsetHeight){ // We would all div with the same height so we find the max height to adjust all other to this value
                         heights = blocResult.offsetHeight;
                         console.log(blocResult.offsetHeight);
                         }
                     }
                     var allBlock = document.getElementsByClassName("infoBook");
                     for(i=0;i<allBlock.length;i++){
-                        allBlock[i].style.height = heights - 2 + "px";
+                        allBlock[i].style.height = heights - 2 + "px"; // max height -2 because when we find this value we take the border not realy inclued in the div height
                     }
                 }
                 else{
@@ -243,11 +245,11 @@ function reasearchPage(){
         const buttonLoad = document.createElement("button");
         const textButtonLoad = document.createTextNode("Annuler");
         buttonLoad.classList.add("btn");
+        /*This function switch to formular page at page home */
         buttonLoad.addEventListener("click",function(){
-            btnActivate = false;
             structurePlace.classList.remove("formularStructure")
             structurePlace.innerHTML="";
-            loadPage();
+            firstPage();
         })
         buttonLoad.appendChild(textButtonLoad);
         structurePlace.appendChild(buttonLoad);
@@ -256,13 +258,4 @@ function reasearchPage(){
             structurePlace.appendChild(PlaceReasearchResult);
 }
 
-function loadPage(){
-    if(btnActivate){
-        reasearchPage();
-    }
-    else{
-        firstPage();
-    }
-}
-
-loadPage();
+firstPage();
