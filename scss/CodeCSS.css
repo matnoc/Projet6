@@ -1,0 +1,60 @@
+body {
+  font-family: "Inria Sans";
+  text-align: center; }
+
+body .title {
+  background-color: rgba(74, 74, 74, 0.099);
+  border: 1px rgba(70, 70, 70, 0.099) solid;
+  box-shadow: 0ex 3px 3px #464646; }
+
+body .formularStructure {
+  display: flex;
+  flex-direction: column;
+  text-align: left; }
+
+body .btn {
+  width: 150px;
+  background-color: RGB(70, 147, 136);
+  margin-top: 10px;
+  color: white; }
+
+body .red {
+  background-color: red; }
+
+body hr {
+  width: 95%; }
+
+body h4 {
+  width: 90%; }
+
+body .center {
+  text-align: center; }
+
+body .infoSaveBook {
+  text-align: left; }
+
+body .infoBook {
+  border: 1px black solid;
+  font-size: x-small;
+  float: left; }
+
+body .infoBook img {
+  width: 150px;
+  height: 150px; }
+
+body .infoBook .iconPosition {
+  float: right;
+  position: relative;
+  top: 15px; }
+
+@media (min-width: 200px) {
+  .infoBook {
+    width: 49%; } }
+
+@media (min-width: 700px) {
+  .infoBook {
+    width: 33%; } }
+
+@media (min-width: 1200px) {
+  .infoBook {
+    width: 19%; } }
