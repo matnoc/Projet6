@@ -1,102 +1,70 @@
-
-
-
-
-.title
-{
-    background-color : rgba(74, 74, 74, 0.099);
-    border : 1px rgba(70, 70, 70, 0.099) solid;
-    box-shadow: 0ex 3px 3px rgb(70, 70, 70);
-}
-
-
-
-
 body {
     font-family: "Inria Sans";
     text-align: center;
-    display: flexbox;
-}
-
-
-
-.formularStructure{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-
-
-.btn{
-    width: 150px;
-    background-color: RGB(70, 147, 136);
-    margin-top: 10px;
-}
-
-hr{
-    width: 95%;
-}
-
-
-
-h4{
-    width: 90%;
-}
-
-
-
-
-
-img {
-    width : 150px;
-    height : 150px;
+    .title
+    {
+        background-color : rgba(74, 74, 74, 0.099);
+        border : 1px rgba(70, 70, 70, 0.099) solid;
+        box-shadow: 0ex 3px 3px rgb(70, 70, 70);
     }
-
-
-
-.iconPosition{
-    float: right;
-    position: relative;
-    top:15px;
-}
-
-
-
-.center{
-    text-align: center;
-}
-
-@media (min-width:200px){
-    .infoSaveBook{
-        border : 1px black solid;
-        font-size:x-small;
-        width:49%;
-        float :left;
+    .formularStructure{
+        display: flex;
+        flex-direction: column;
         text-align: left;
     }
-
+    .btn{
+        width: 150px;
+        background-color: RGB(70, 147, 136);
+        margin-top: 10px;
+        color : white;
+    }
+    .red{
+        background-color: red;
+    }
+    hr{
+        width: 95%;
+    }
+    h4{
+        width: 90%;
+    }
+    .center{
+        text-align: center;
+    }
+    .infoSaveBook{
+        text-align: left;
+    }
     .infoBook{
         border : 1px black solid;
         font-size:x-small;
-        width:49%;
         float :left;
+        img {
+            width : 150px;
+            height : 150px;
+        }
+        .iconPosition{
+            float: right;
+            position: relative;
+            top:15px;
+        }
+    }
+}
+
+@media (min-width:200px){
+    .infoBook{
+        width:49%;
     }
 }
 
 @media (min-width:700px){
-    .infoSaveBook{
-        border : 1px black solid;
-        font-size:x-small;
-        width:18%;
-        float :left;
-        text-align: left;
-    }
 
     .infoBook{
-        border : 1px black solid;
-        font-size:x-small;
+        width:33%;
+    }
+}
+
+@media (min-width:1200px){
+
+    .infoBook{
         width:19%;
-        float :left;
     }
 }

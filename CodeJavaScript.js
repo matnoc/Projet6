@@ -1,5 +1,7 @@
+console.log("je suis passer ici")
 const structurePlace = document.getElementById("addBook"); // Place to insert our element
 const bookSave = []; // Find our book save easly
+const reasearchBook =[];
 sessionStorage.clear(); // We expect we refresh erase old book
 const placeSaveBook = document.getElementById("content"); // Place to insert our book save
 const placeAllSaveBook = document.createElement("div");
@@ -7,6 +9,7 @@ const placeAllSaveBook = document.createElement("div");
 
 /* This function construct our page Home */
 function firstPage(){
+    console.log("je suis passer ici")
     const buttonLoad = document.createElement("button");
     const textButtonLoad = document.createTextNode("Ajouter un livre");
     const structurePlace = document.getElementById("addBook");
@@ -32,6 +35,7 @@ function maPochList(){
         const placeBlocSaveBook = document.createElement("div");
         placeAllSaveBook.appendChild(placeBlocSaveBook);
         placeBlocSaveBook.classList.add("infoSaveBook");
+        placeBlocSaveBook.classList.add("infoBook");
 
         const deleteBook = document.createElement("a");
         deleteBook.classList.add("fa-solid");
@@ -125,10 +129,12 @@ function reasearchPage(){
                 const ligne = document.createElement("hr");
                 PlaceReasearchResult.appendChild(ligne);
                 if (data.totalItems>0){
+                    reasearchBook.splice(0,60);
                     const PlaceTextReasearchResult = document.createElement("h2");
                     const TextReasearchResult = document.createTextNode("Résultat de recherche");
                     PlaceTextReasearchResult.appendChild(TextReasearchResult);
                     PlaceReasearchResult.appendChild(PlaceTextReasearchResult);
+                    PlaceTextReasearchResult.classList.add("center")
 
                     const ReasearchPlaceResult = document.createElement("div");
                     PlaceReasearchResult.appendChild(ReasearchPlaceResult);
@@ -141,6 +147,7 @@ function reasearchPage(){
                         const blocResult = document.createElement("div");
                         ReasearchPlaceResult.appendChild(blocResult);
                         blocResult.classList.add("infoBook");
+                        blocResult.classList.add("infoResearchBook");
 
                         const saveBook = document.createElement("a");
                         saveBook.classList.add("fa-solid");
@@ -156,27 +163,9 @@ function reasearchPage(){
                                 const idBook = `id : ${data.items[i].id}`
                                 sessionStorage.setItem("title"+idBook,title);
                                 sessionStorage.setItem(idBook,idBook);
-                                if(`auteur : ${data.items[i].volumeInfo.authors??"Inconnue"}` != 'auteur : Inconnue'){
-                                    const author =`auteur : ${data.items[i].volumeInfo.authors[0]}`
-                                    sessionStorage.setItem("author"+idBook,author);
-                                }
-                                else{
-                                    const author =`auteur : Inconnue`
-                                    sessionStorage.setItem("author"+idBook,author);
-                                }
-                                if (`${data.items[i].volumeInfo.description??"Information manquante"}` != 'Information manquante'){
-                                    description = `${data.items[i].volumeInfo.description}`;
-                                    sessionStorage.setItem("description"+idBook,description.slice(0,200));
-                                }
-                                else{
-                                    sessionStorage.setItem("description"+idBook,`Information manquante`);
-                                }
-                                if(`${data.items[i].volumeInfo.imageLinks??"Inconue"}` != "Inconue"){
-                                    sessionStorage.setItem("image"+idBook,`${data.items[i].volumeInfo.imageLinks.smallThumbnail}`);
-                                }
-                                else{
-                                    sessionStorage.setItem("image"+idBook,"C:/Users/-/Desktop/Cours OpenClassroom/Projet 6/Picture/unavailable.png");
-                                }
+                                sessionStorage.setItem("author"+idBook,reasearchBook[i*3]);
+                                sessionStorage.setItem("description"+idBook,reasearchBook[i*3+1]);
+                                sessionStorage.setItem("image"+idBook,reasearchBook[i*3+2]);
                                 bookSave.push(idBook); // After push in sessionStorage all information about this book we put the book at ur saveList
                                 maPochList();
                             }
@@ -194,9 +183,11 @@ function reasearchPage(){
                         bookAuthor = document.createElement("h6");
                         if(`auteur : ${data.items[i].volumeInfo.authors??"Inconnue"}` != 'auteur : Inconnue'){
                             bookAuthor.innerHTML = `auteur : ${data.items[i].volumeInfo.authors[0]}`;
+                            reasearchBook.push(`auteur : ${data.items[i].volumeInfo.authors[0]}`);
                         }
                         else{
                             bookAuthor.innerHTML = `auteur : Inconnue`;
+                            reasearchBook.push(`auteur : Inconnue`);
                         }
                         blocResult.appendChild(bookAuthor);
 
@@ -204,9 +195,11 @@ function reasearchPage(){
                         if (`${data.items[i].volumeInfo.description??"Information manquante"}` != 'Information manquante'){
                             description = `${data.items[i].volumeInfo.description}`;
                             bookDescription.innerHTML = description.slice(0,200);
+                            reasearchBook.push(description.slice(0,200));
                         }
                         else{
-                            bookDescription.innerHTML = `Information manquante`
+                            bookDescription.innerHTML = `Information manquante`;
+                            reasearchBook.push(`Information manquante`);
                         }
                         blocResult.appendChild(bookDescription);
 
@@ -215,9 +208,11 @@ function reasearchPage(){
                         bookPicture =document.createElement("img");
                         if(`${data.items[i].volumeInfo.imageLinks??"Inconue"}` != "Inconue"){
                             bookPicture.src =`${data.items[i].volumeInfo.imageLinks.smallThumbnail}`;
+                            reasearchBook.push(`${data.items[i].volumeInfo.imageLinks.smallThumbnail}`);
                         }
                         else{
-                            bookPicture.src = "C:/Users/-/Desktop/Cours OpenClassroom/Projet 6/Picture/unavailable.png";
+                            bookPicture.src = "C:/Users/-/Desktop/Cours_OpenClassroom/Projet_6/Picture/unavailable.png";
+                            reasearchBook.push("C:/Users/-/Desktop/Cours_OpenClassroom/Projet_6/Picture/unavailable.png")
                         }
                         centerElement.appendChild(bookPicture)
                         blocResult.appendChild(centerElement)
@@ -226,7 +221,7 @@ function reasearchPage(){
                         console.log(blocResult.offsetHeight);
                         }
                     }
-                    var allBlock = document.getElementsByClassName("infoBook");
+                    var allBlock = document.getElementsByClassName("infoResearchBook");
                     for(i=0;i<allBlock.length;i++){
                         allBlock[i].style.height = heights - 2 + "px"; // max height -2 because when we find this value we take the border not realy inclued in the div height
                     }
@@ -253,6 +248,7 @@ function reasearchPage(){
         })
         buttonLoad.appendChild(textButtonLoad);
         structurePlace.appendChild(buttonLoad);
+        buttonLoad.classList.add("red");
 
         const PlaceReasearchResult = document.createElement("div")
             structurePlace.appendChild(PlaceReasearchResult);
